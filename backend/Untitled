@@ -1,0 +1,7 @@
+PORT=3001
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=voxtrend_dev
+DB_USER=postgres
+DB_PASSWORD=ton_mot_de_passe_postgres
+JWT_SECRET=une_longue_chaine_aleatoire_ici_minimum_32_caracteres

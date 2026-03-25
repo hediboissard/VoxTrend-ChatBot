@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:       #11243e;
+  --navy-light: #1a3357;
+  --navy-muted: rgba(17,36,62,0.06);
+  --accent:     #5e60ce;
+  --violet:     #7400b8;
+  --cyan:       #56cfe1;
+  --green:      #defcb9;
+  --grad:       linear-gradient(135deg, #5e60ce 0%, #7400b8 100%);
+  --grad-full:  linear-gradient(135deg, #defcb9 0%, #56cfe1 30%, #5e60ce 65%, #7400b8 100%);
+  --bg:         #f5f7fa;
+  --surface:    #ffffff;
+  --border:     #e8edf3;
+  --border-md:  #d1d9e4;
+  --text-1:     #11243e;
+  --text-2:     #536680;
+  --text-3:     #8fa3bc;
+  --success:    #16a34a;
+  --success-bg: #f0fdf4;
+  --danger:     #dc2626;
+  --danger-bg:  #fef2f2;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 24px;
+  --sh-sm: 0 1px 4px rgba(17,36,62,0.07);
+  --sh-md: 0 4px 20px rgba(17,36,62,0.09);
+  --sh-lg: 0 12px 48px rgba(17,36,62,0.13);
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+a { text-decoration: none; color: inherit; }
+input, button, textarea { font-family: inherit; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 99px; }
+
+/* ─── Animations globales ──────────────────────────────────────────── */
+ 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+ 
+@keyframes toast-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}

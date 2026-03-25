@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Boutique Exemple</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; }
+    header { background: #7C3AED; color: white; padding: 20px 40px; }
+    main { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+    .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    .card { border: 1px solid #eee; border-radius: 12px; padding: 20px; }
+    .card h3 { margin-bottom: 8px; }
+    .card p { color: #666; font-size: 14px; }
+    .price { font-size: 20px; font-weight: 700; color: #7C3AED; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Boutique Test ✨</h1>
+  </header>
+
+  <main>
+    <h2>Nos produits</h2>
+    <div class="products">
+      <div class="card">
+        <h3>Produit A</h3>
+        <p>Description du produit A lorem ipsum dolor sit amet.</p>
+        <div class="price">29,99 €</div>
+      </div>
+      <div class="card">
+        <h3>Produit B</h3>
+        <p>Description du produit B lorem ipsum dolor sit amet.</p>
+        <div class="price">49,99 €</div>
+      </div>
+      <div class="card">
+        <h3>Produit C</h3>
+        <p>Description du produit C lorem ipsum dolor sit amet.</p>
+        <div class="price">19,99 €</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 2 lignes à coller sur n'importe quel site -->
+  <script>
+    window.VoxConfig = { apiKey: '492c2cd0-106f-4111-9f0a-cfd48f1810ae' }
+  </script>
+  <script src="http://localhost:3001/widget/widget.js"></script>
+</body>
+</html>
