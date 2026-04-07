@@ -7,7 +7,7 @@
     return
   }
 
-  const API_URL = 'http://localhost:3001'
+  const API_URL = 'https://voxtrend-chatbot-production.up.railway.app'
 
   let socket = null
   let conversationId = null
