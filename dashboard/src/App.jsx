@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Conversations from './pages/Conversations'
+import Settings from './pages/Settings'
 import ToastProvider from './components/ToastProvider'
 
 function PrivateRoute({ children }) {
@@ -21,6 +22,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <Conversations />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <Settings />
             </PrivateRoute>
           }
         />

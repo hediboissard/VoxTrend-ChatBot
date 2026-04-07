@@ -14,9 +14,15 @@
   let clientId = null
   let clientName = 'Support'
   let primaryColor = '#5e60ce'
+  let textColor = '#ffffff'
+  let widgetHeight = 600
+  let widgetGreeting = 'Bonjour 👋'
+  let widgetSubtitle = 'Une question ? Nous répondons en quelques minutes.'
+  let widgetFaq = []
   let isOpen = false
   let pendingFile = null
   let currentPage = 'home'
+  let previousPage = 'home'
   let fileDialogOpen = false
 
   let visitorId = localStorage.getItem('vox_visitor_id')
@@ -47,7 +53,7 @@
       .vox-btn-toggle {
         position: fixed; bottom: 24px; right: 24px;
         width: 52px; height: 52px; border-radius: 50%;
-        background: #11243e;
+        background: ${primaryColor};
         border: none; cursor: pointer;
         box-shadow: 0 2px 12px rgba(17,36,62,0.25);
         display: flex; align-items: center; justify-content: center;
@@ -58,14 +64,13 @@
 
       .vox-shell {
         position: fixed; bottom: 88px; right: 24px;
-        width: 350px; height: 500px;
+        width: 350px; height: ${widgetHeight}px;
         background: #ffffff; border-radius: 16px;
-        box-shadow: 0 8px 40px rgba(17,36,62,0.12);
+        box-shadow: 0 8px 40px rgba(17,36,62,0.15), 0 0 0 1px rgba(0,0,0,0.06);
         display: flex; flex-direction: column;
         z-index: 99998; overflow: hidden;
         font-family: 'Inter', sans-serif;
         transition: opacity 0.2s, transform 0.2s;
-        border: 1px solid #eaeaea;
       }
       .vox-shell.vox-hidden {
         opacity: 0; pointer-events: none; transform: translateY(10px);
@@ -82,9 +87,9 @@
       .vox-header-dot-wrap { position: relative; }
       .vox-header-avatar {
         width: 34px; height: 34px; border-radius: 50%;
-        background: #11243e;
+        background: ${primaryColor};
         display: flex; align-items: center; justify-content: center;
-        font-size: 13px; font-weight: 600; color: white;
+        font-size: 13px; font-weight: 600; color: ${textColor};
       }
       .vox-header-online {
         position: absolute; bottom: 0; right: 0;
@@ -106,47 +111,76 @@
       .vox-page.vox-hidden { display: none !important; }
 
       /* Home */
-      .vox-home { padding: 20px 18px; display: flex; flex-direction: column; gap: 20px; }
-      .vox-home-greeting { font-size: 20px; font-weight: 600; color: #111; letter-spacing: -0.3px; }
-      .vox-home-sub { font-size: 13px; color: #666; line-height: 1.6; margin-top: 4px; }
+      .vox-home { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #f0f1f4; }
+      .vox-home-hero {
+        background: ${primaryColor};
+        padding: 22px 20px 68px;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .vox-home-hero::before {
+        content: '';
+        position: absolute;
+        width: 180px; height: 180px;
+        background: rgba(255,255,255,0.07);
+        border-radius: 50%;
+        top: -55px; right: -40px;
+        pointer-events: none;
+      }
+      .vox-home-hero::after {
+        content: '';
+        position: absolute;
+        width: 100px; height: 100px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        bottom: 10px; right: 60px;
+        pointer-events: none;
+      }
+      .vox-home-greeting { font-size: 24px; font-weight: 800; color: ${textColor}; letter-spacing: -0.5px; line-height: 1.25; position: relative; }
+      .vox-home-sub { font-size: 13px; color: ${textColor}; opacity: 0.7; line-height: 1.6; margin-top: 8px; position: relative; }
+
+      .vox-home-content { padding: 0 14px 24px; display: flex; flex-direction: column; gap: 10px; margin-top: -48px; position: relative; z-index: 1; }
+      .vox-home-card { background: white; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+
       .vox-home-start-btn {
-        padding: 12px 18px;
-        background: #11243e; color: white; border: none; border-radius: 10px;
-        font-size: 13px; font-weight: 500; cursor: pointer;
+        padding: 16px 16px;
+        background: white; color: #111; border: none;
         display: flex; align-items: center; justify-content: space-between;
-        font-family: 'Inter', sans-serif; transition: opacity 0.15s;
-        width: 100%;
+        font-family: 'Inter', sans-serif; transition: background 0.15s;
+        width: 100%; text-align: left; cursor: pointer;
       }
-      .vox-home-start-btn:hover { opacity: 0.85; }
-      .vox-home-start-btn-left { display: flex; align-items: center; gap: 10px; }
+      .vox-home-start-btn:hover { background: #fafafa; }
+      .vox-home-start-btn-left { display: flex; align-items: center; gap: 13px; }
       .vox-home-start-icon {
-        width: 28px; height: 28px; border-radius: 7px;
-        background: rgba(255,255,255,0.12);
-        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 12px;
+        background: ${primaryColor};
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
       }
+      .vox-home-start-title { font-size: 13px; font-weight: 600; color: #111; display: block; }
+      .vox-home-start-hint { font-size: 11px; color: #bbb; display: block; margin-top: 2px; }
 
-      .vox-divider { height: 1px; background: #f0f0f0; }
-
-      .vox-section-label { font-size: 11px; font-weight: 600; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; }
+      .vox-section-label { font-size: 11px; font-weight: 700; color: #c0c0c0; letter-spacing: 0.07em; text-transform: uppercase; }
+      .vox-faq-header-row { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
 
       .vox-faq { display: flex; flex-direction: column; }
       .vox-faq-item {
-        padding: 12px 0;
+        padding: 13px 16px;
         display: flex; align-items: center; justify-content: space-between;
-        cursor: pointer; border-bottom: 1px solid #f5f5f5;
-        transition: color 0.1s;
+        cursor: pointer; border-top: 1px solid #f5f5f5;
+        transition: background 0.12s; gap: 8px;
       }
-      .vox-faq-item:last-child { border-bottom: none; }
-      .vox-faq-item:hover .vox-faq-item-text { color: #11243e; }
-      .vox-faq-item-text { font-size: 13px; color: #333; font-weight: 500; }
-      .vox-faq-item-arrow { color: #ccc; }
+      .vox-faq-item:hover { background: #fafafa; }
+      .vox-faq-item:hover .vox-faq-item-text { color: ${primaryColor}; }
+      .vox-faq-item-text { font-size: 13px; color: #333; font-weight: 500; line-height: 1.4; flex: 1; }
+      .vox-faq-item-arrow { color: #ddd; flex-shrink: 0; }
 
       /* Conversations list */
       .vox-convs { padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
       .vox-convs-top { display: flex; align-items: center; justify-content: space-between; }
       .vox-new-conv-btn {
-        padding: 6px 12px; background: #11243e;
-        color: white; border: none; border-radius: 7px;
+        padding: 6px 12px; background: ${primaryColor};
+        color: ${textColor}; border: none; border-radius: 7px;
         font-size: 12px; font-weight: 500; cursor: pointer;
         display: flex; align-items: center; gap: 5px;
         font-family: 'Inter', sans-serif; transition: opacity 0.15s;
@@ -162,9 +196,9 @@
       .vox-conv-item.active-conv { background: #f3f4f6; }
       .vox-conv-avatar {
         width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-        background: #11243e;
+        background: ${primaryColor};
         display: flex; align-items: center; justify-content: center;
-        color: white; font-size: 11px; font-weight: 600;
+        color: ${textColor}; font-size: 11px; font-weight: 600;
       }
       .vox-conv-content { flex: 1; min-width: 0; }
       .vox-conv-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
@@ -202,7 +236,7 @@
         font-size: 13px; line-height: 1.5; word-break: break-word;
       }
       .vox-msg.visitor {
-        background: #11243e; color: white;
+        background: ${primaryColor}; color: ${textColor};
         align-self: flex-end; border-bottom-right-radius: 4px;
       }
       .vox-msg.agent {
@@ -213,7 +247,7 @@
       .vox-msg.system { background: transparent; color: #aaa; font-size: 11px; align-self: center; }
       .vox-msg img { max-width: 100%; max-height: 180px; border-radius: 8px; display: block; cursor: pointer; }
       .vox-file-link { display: flex; align-items: center; gap: 7px; text-decoration: none; font-weight: 500; font-size: 12px; }
-      .vox-file-link.visitor { color: rgba(255,255,255,0.85); }
+      .vox-file-link.visitor { color: ${textColor}; opacity: 0.85; }
       .vox-file-link.agent { color: #333; }
       .vox-msg-stamp { text-align: center; font-size: 10px; color: #ccc; margin: 4px 0; align-self: center; }
 
@@ -248,12 +282,12 @@
       .vox-input::placeholder { color: #bbb; }
       .vox-send {
         width: 32px; height: 32px; border-radius: 9px;
-        background: #11243e; border: none; cursor: pointer;
+        background: ${primaryColor}; border: none; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         flex-shrink: 0; transition: opacity 0.15s; margin: 2px;
       }
       .vox-send:disabled { opacity: 0.3; cursor: default; }
-      .vox-send svg { width: 14px; height: 14px; fill: white; }
+      .vox-send svg { width: 14px; height: 14px; fill: ${textColor}; }
 
       /* Nav */
       .vox-nav {
@@ -268,8 +302,8 @@
       }
       .vox-nav-btn svg { width: 18px; height: 18px; }
       .vox-nav-btn-label { font-size: 10px; font-weight: 500; }
-      .vox-nav-btn.active svg { color: #11243e; }
-      .vox-nav-btn.active .vox-nav-btn-label { color: #11243e; }
+      .vox-nav-btn.active svg { color: #374151; }
+      .vox-nav-btn.active .vox-nav-btn-label { color: #374151; }
       .vox-nav-btn:not(.active) svg { color: #ccc; }
       .vox-nav-btn:not(.active) .vox-nav-btn-label { color: #ccc; }
 
@@ -291,7 +325,7 @@
     const toggleBtn = document.createElement('button')
     toggleBtn.className = 'vox-btn-toggle'
     toggleBtn.id = 'vox-toggle'
-    toggleBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="white"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>`
+    toggleBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="${textColor}"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>`
 
     toggleBtn.addEventListener('mousedown', (e) => {
       e.stopPropagation()
@@ -329,30 +363,49 @@
       <!-- Page Accueil -->
       <div class="vox-page" id="vox-page-home">
         <div class="vox-home">
-          <div>
-            <div class="vox-home-greeting">Bonjour 👋</div>
-            <div class="vox-home-sub">Une question ? Nous répondons en quelques minutes.</div>
+
+          <!-- Hero coloré -->
+          <div class="vox-home-hero">
+            <div class="vox-home-greeting">${widgetGreeting}</div>
+            <div class="vox-home-sub">${widgetSubtitle}</div>
           </div>
 
-          <button class="vox-home-start-btn" id="vox-start-chat">
-            <div class="vox-home-start-btn-left">
-              <div class="vox-home-start-icon">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          <!-- Cards flottantes -->
+          <div class="vox-home-content">
+
+            <!-- CTA card -->
+            <div class="vox-home-card">
+              <button class="vox-home-start-btn" id="vox-start-chat">
+                <div class="vox-home-start-btn-left">
+                  <div class="vox-home-start-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="${textColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span class="vox-home-start-title">Démarrer une conversation</span>
+                    <span class="vox-home-start-hint">On vous répond rapidement</span>
+                  </div>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
                 </svg>
-              </div>
-              Démarrer une conversation
+              </button>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </button>
 
-          <div class="vox-divider"></div>
+            <!-- FAQ card -->
+            <div class="vox-home-card">
+              <div id="vox-faq-header" class="vox-faq-header-row">
+                <div class="vox-section-label">Questions fréquentes</div>
+                <span id="vox-faq-chevron" style="color:#ccc;transition:transform 0.2s;display:flex;align-items:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="vox-faq" id="vox-faq" style="display:none"></div>
+            </div>
 
-          <div>
-            <div class="vox-section-label" style="margin-bottom: 8px">Questions fréquentes</div>
-            <div class="vox-faq" id="vox-faq"></div>
           </div>
         </div>
       </div>
@@ -467,12 +520,25 @@
   }
 
   function buildFaq() {
-    const questions = [
+    const questions = widgetFaq.length > 0 ? widgetFaq : [
       'Quels sont vos délais de livraison ?',
       'Comment suivre ma commande ?',
       'Quelle est votre politique de retour ?',
     ]
     const faq = document.getElementById('vox-faq')
+    const header = document.getElementById('vox-faq-header')
+    const chevron = document.getElementById('vox-faq-chevron')
+    let faqOpen = false
+
+    if (header) {
+      header.addEventListener('click', (e) => {
+        e.stopPropagation()
+        faqOpen = !faqOpen
+        faq.style.display = faqOpen ? 'flex' : 'none'
+        chevron.style.transform = faqOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+      })
+    }
+
     questions.forEach(q => {
       const item = document.createElement('div')
       item.className = 'vox-faq-item'
@@ -538,6 +604,7 @@
 
   async function openConversation(conv) {
     conversationId = conv.id
+    localStorage.setItem('vox_conversation_id', conv.id)
     const subtitle = document.getElementById('vox-chat-subtitle')
     if (subtitle) subtitle.textContent = `#${conv.ticket_number || '?'} · Support`
     document.getElementById('vox-messages').innerHTML = ''
@@ -552,6 +619,7 @@
 
   function startNewConversation(callback) {
     conversationId = null
+    localStorage.removeItem('vox_conversation_id')
     const messages = document.getElementById('vox-messages')
     if (messages) messages.innerHTML = ''
     const subtitle = document.getElementById('vox-chat-subtitle')
@@ -561,6 +629,7 @@
   }
 
   function navigateTo(page) {
+    if (page !== currentPage) previousPage = currentPage
     currentPage = page
     const pages = { home: 'vox-page-home', conversations: 'vox-page-conversations', chat: 'vox-page-chat' }
     Object.entries(pages).forEach(([key, id]) => {
@@ -579,9 +648,21 @@
     const btn = document.getElementById('vox-toggle')
     shell.classList.toggle('vox-hidden', !isOpen)
     if (isOpen) {
-      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="2,7 22,7 12,19"/></svg>`
+      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${textColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><polyline points="6 9 12 15 18 9"/></svg>`
+      if (conversationId) {
+        const messages = document.getElementById('vox-messages')
+        if (messages && messages.children.length === 0) {
+          fetch(`${API_URL}/api/conversations/${conversationId}/messages/widget?visitorId=${visitorId}`)
+            .then(r => r.json())
+            .then(history => {
+              if (Array.isArray(history)) history.forEach(msg => addMessage(msg.content, msg.sender_role))
+            })
+            .catch(() => {})
+          navigateTo('chat')
+        }
+      }
     } else {
-      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="white"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>`
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="${textColor}"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>`
     }
   }
 
@@ -589,7 +670,7 @@
     document.getElementById('vox-close').onclick = (e) => { e.stopPropagation(); toggleChat() }
     document.getElementById('vox-start-chat').onclick = (e) => { e.stopPropagation(); startNewConversation() }
     document.getElementById('vox-new-conv').onclick = (e) => { e.stopPropagation(); startNewConversation() }
-    document.getElementById('vox-back').onclick = (e) => { e.stopPropagation(); navigateTo('conversations') }
+    document.getElementById('vox-back').onclick = (e) => { e.stopPropagation(); navigateTo(previousPage || 'home') }
     document.getElementById('vox-nav-home').onclick = (e) => { e.stopPropagation(); navigateTo('home') }
     document.getElementById('vox-nav-conversations').onclick = (e) => { e.stopPropagation(); navigateTo('conversations') }
 
@@ -737,6 +818,7 @@
       })
       const conv = await res.json()
       conversationId = conv.id
+      localStorage.setItem('vox_conversation_id', conv.id)
       const subtitle = document.getElementById('vox-chat-subtitle')
       if (subtitle) subtitle.textContent = `#${conv.ticket_number || '?'} · Support`
       socket.emit('join_conversation', { conversationId })
@@ -766,11 +848,32 @@
       const cfg = await res.json()
       clientId = cfg.clientId
       primaryColor = cfg.primaryColor || '#11243e'
+      textColor = cfg.textColor || '#ffffff'
+      widgetHeight = cfg.height || 600
+      widgetGreeting = cfg.greeting || 'Bonjour 👋'
+      widgetSubtitle = cfg.subtitle || 'Une question ? Nous répondons en quelques minutes.'
+      widgetFaq = Array.isArray(cfg.faq) ? cfg.faq : []
       injectStyles()
       buildWidget(cfg.clientName)
       loadSocketIO(() => {
         socket = io(API_URL)
-        socket.on('connect', () => console.log('[Voxtrend] Connecté:', socket.id))
+        socket.on('connect', async () => {
+          console.log('[Voxtrend] Connecté:', socket.id)
+          const savedConvId = localStorage.getItem('vox_conversation_id')
+          if (savedConvId) {
+            try {
+              const res = await fetch(`${API_URL}/api/conversations/${savedConvId}/messages/widget?visitorId=${visitorId}`)
+              if (res.ok) {
+                conversationId = savedConvId
+                socket.emit('join_conversation', { conversationId })
+              } else {
+                localStorage.removeItem('vox_conversation_id')
+              }
+            } catch (_) {
+              localStorage.removeItem('vox_conversation_id')
+            }
+          }
+        })
         socket.on('new_message', (message) => {
           if (message.conversation_id !== conversationId) return
           if (message.sender_role === 'agent') {

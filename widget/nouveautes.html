@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveautés - VoxTrend</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .badge-new {
+      display: inline-block;
+      background: #4f46e5;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      border-left: 4px solid #4f46e5;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      color: #1a1a2e;
+    }
+
+    .card .date {
+      font-size: 0.82rem;
+      color: #999;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #ede9fe;
+      color: #4f46e5;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 8px;
+      margin-top: 12px;
+      margin-right: 6px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 32px;
+      color: #4f46e5;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="test-integration.html" class="back-link">&#8592; Retour à la page d'intégration</a>
+    <header>
+      <h1>Nouveautés VoxTrend <span class="badge-new">Nouveau</span></h1>
+      <p>Découvrez les dernières mises à jour et fonctionnalités de la plateforme.</p>
+    </header>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Widget personnalisable</h2>
+        <span class="date">Avril 2026</span>
+      </div>
+      <p>Le widget VoxTrend est maintenant entièrement personnalisable depuis le tableau de bord : couleurs, hauteur, position et bien plus encore.</p>
+      <span class="tag">Widget</span>
+      <span class="tag">Personnalisation</span>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Tableau de bord repensé</h2>
+        <span class="date">Mars 2026</span>
+      </div>
+      <p>L'interface du tableau de bord a été entièrement repensée pour une meilleure expérience utilisateur, avec une navigation plus fluide et des statistiques en temps réel.</p>
+      <span class="tag">Dashboard</span>
+      <span class="tag">UX</span>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Support des fichiers PDF</h2>
+        <span class="date">Mars 2026</span>
+      </div>
+      <p>Importez vos documents PDF directement dans la base de connaissances du chatbot pour enrichir ses réponses automatiquement.</p>
+      <span class="tag">IA</span>
+      <span class="tag">PDF</span>
+    </div>
+
+    <footer>
+      &copy; 2026 VoxTrend &mdash; Toutes les nouveautés
+    </footer>
+  </div>
+  <script src="widget-loader.js"></script>
+</body>
+</html>
