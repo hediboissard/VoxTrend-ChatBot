@@ -2,6 +2,6 @@ window.VoxConfig = { apiKey: '492c2cd0-106f-4111-9f0a-cfd48f1810ae' };
 
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://voxtrend-chatbot-production.up.railway.app/widget/widget.js';
+  s.src = 'http://127.0.0.1:3001/widget/widget.js';
   document.head.appendChild(s);
 })();

@@ -29,7 +29,7 @@ const io = new Server(server, {
 app.use(cors())
 app.use(express.json())
 
-app.use('/widget', express.static(path.join(__dirname, '../widget')))
+app.use('/widget', express.static(path.join(__dirname, '../../widget')))
 
 app.use('/api/auth', authRoutes)
 app.use('/api/conversations', conversationsRoutes)
